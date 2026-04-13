@@ -1,37 +1,24 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\WelcomeController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome.index');
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 
-Route::get('/about', [AboutController::class, 'index'])->name('about.index');
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-Route::get('/order', [OrderController::class, 'order']);
-Route::get('/user', [UserController::class, 'user']);
+Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
+    Route::get('/home', [AdminHomeController::class, 'index'])->name('home');
+    Route::resource('posts', AdminPostController::class);
+});
 
-# post routes
-Route::get('/posts', [PostController::class, 'index'])->name('post.index');
-Route::get('/posts/create', [PostController::class, 'create'])->name('post.create');
-Route::post('/posts', [PostController::class, 'store'])->name('post.store');
-Route::get('/posts/{post}', [PostController::class, 'show'])->name('post.show');
-Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
-Route::patch('/posts/{post}', [PostController::class, 'update'])->name('post.update');
-Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('post.delete');
+Route::prefix('posts')->name('posts.')->group(function () {
+    Route::resource('/', PostController::class)->parameters(['' => 'post']);;
+});
 
-Route::get('/posts/categories/{category}', [PostController::class, 'category'])->name('post.category');
-
-Route::get('/posts/update', [PostController::class, 'update']);
-Route::get('/posts/delete', [PostController::class, 'delete']);
-Route::get('/posts/first-or-create', [PostController::class, 'firstOrCreate']);
-Route::get('/posts/update-or-create', [PostController::class, 'updateOrCreate']);
-
-
-
-
+Auth::routes();
+Route::get('/home', [HomeController::class, 'index'])->name('home');

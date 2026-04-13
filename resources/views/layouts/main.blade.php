@@ -1,5 +1,5 @@
-<!doctype html>
 <html lang="en">
+<!doctype html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -13,20 +13,25 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ route('welcome.index') }}">DevelopmentAid</a>
+                <a class="navbar-brand" href="{{ route('welcome') }}">DevelopmentAid</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{ route('about.index') }}">About</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('about') }}">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('post.index') }}">Blog</a>
+                            <a class="nav-link" href="{{ route('posts.index') }}">Blog</a>
                         </li>
+                        @can('view', auth()->user())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.home') }}">Admin</a>
+                            </li>
+                        @endcan
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('profile.index') }}">Profile</a>
+                            <a class="nav-link" href="{{ route('home') }}"><b>Login</b></a>
                         </li>
                     </ul>
                 </div>

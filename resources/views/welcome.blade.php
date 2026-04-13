@@ -1,5 +1,8 @@
-@extends('layouts/main')
+@extends('layouts.main')
 
 @section('contents')
-<h1>Welcome! Feel free to do some changes today.</h1>
+    <div class="container-text">
+{{--        <img src="https://pngimg.com/d/welcome_PNG16.png" alt="">--}}
+        <img src="{{ asset('/images/welcome.png') }}" alt="">
+    </div>
 @endsection
